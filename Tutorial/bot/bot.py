@@ -3,6 +3,7 @@ import logging, hikari, lightbulb
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from pytz import utc # This is needed for the scheduler
 
+# Set up the bot class
 class Bot(lightbulb.BotApp):
     def __init__(self) -> None:
         self.scheduler = AsyncIOScheduler()     
@@ -17,7 +18,7 @@ class Bot(lightbulb.BotApp):
             default_enabled_guilds=(1023695785495363584),   # This is your guild ID for testing your bot
                                                             # you should remove then when making it global
             help_slash_command=False,       # Dissables the automatic help command
-            intents = hikari.Intents.ALL    # For debugging just use all cos why not
+            intents = hikari.Intents.ALL    # This sets your intents
         )
 
     def run(self) -> None:
@@ -27,16 +28,17 @@ class Bot(lightbulb.BotApp):
         self.event_manager.subscribe(hikari.StoppedEvent, self.on_stopped)      # Triggered when the bot has stopped
 
         with open("Tutorial/version.txt") as file:
-            version = file.read().strip()   # Just personal preference but i like versioning :)
+            version = file.read().strip() # Just personal preference but I like versioning :)
 
         super().run(
             activity=hikari.Activity(
-                name=f"Version {version}",          # Displays on the side, discord presence
+                name=f"Version {version}",          # Displays on the side, discord presence in this case
                 type=hikari.ActivityType.PLAYING    # This can be PLAYING, LISTENING, WATCHING or COMPETING
+                                                    # In this case "Playing Version 0.0.1"
             )
         )
 
-    # These are all the functions we subscribed to earlier on
+    # These are all the functions that get called when an event we subscribed to earlier gets triggered
     async def on_starting(self, event: hikari.StartingEvent) -> None:
         self.load_extensions_from("./Tutorial/bot/extensions") # Load all extensions from the extensions dir
         logging.info("All extensions loaded")

@@ -1,8 +1,10 @@
 # tokens and stuff
 /secrets
 
-# Where i keep my notes
+# Where I keep my notes
 /Notes
+*.tmp
+*.docx
 
 /logs
 .vscode
